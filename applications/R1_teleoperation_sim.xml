@@ -31,7 +31,7 @@
 
     <module>
       <name>ergocub-finger-controller</name>
-      <parameters>--from ergocub_finger_controller_sim.ini</parameters>
+      <parameters>--from r1_finger_controller_sim.ini</parameters>
       <environment></environment>
       <workdir>/usr/local/src/robot/ergocub-cartesian-control/src/ergocub_finger_controller/config/</workdir>
       <node>console</node>

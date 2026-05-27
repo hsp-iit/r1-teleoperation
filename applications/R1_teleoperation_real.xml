@@ -1,0 +1,73 @@
+<application>
+   <name>R1_teleoperation_REAL</name>
+   <dependencies>
+   </dependencies>
+
+   <!-- modules -->
+   
+   <module>
+         <name>yarp</name>
+         <parameters>repeat /joystick_comp:o </parameters>
+         <environment></environment>
+         <node>laptop</node>
+   </module>
+      
+   <module>
+      <name>mc-ergocub-cartesian-bimanual</name>
+      <parameters>--from config_r1.ini</parameters>
+      <environment></environment>
+      <workdir>/home/user/ergocub-cartesian-control/src/ergocub_cartesian_bimanual/app/conf/real/</workdir>
+      <node>ecc-base</node>
+   </module>
+
+   <module>
+         <name>mc-ergocub-head-controller</name>
+         <parameters>--from config_r1.ini</parameters>
+         <environment></environment>
+         <workdir>/home/user/ergocub-cartesian-control/src/ergocub_head_controller/app/conf/</workdir>
+         <node>ecc-base</node>
+      </module>
+
+    <module>
+      <name>ergocub-finger-controller</name>
+      <parameters>--from r1_finger_controller.ini</parameters>
+      <environment></environment>
+      <workdir>/home/user/ergocub-cartesian-control/src/ergocub_finger_controller/config/</workdir>
+      <node>ecc-base</node>
+   </module>
+
+    <module>
+        <tag>frameTransformerServer</tag>
+        <name>yarpdev</name>
+        <node>win</node>
+        <parameters>--device frameTransformServer --filexml_option fts_yarp_only.xml</parameters>
+    </module>
+    <module>
+        <tag>openxrheadset</tag>
+        <name>yarpdev</name>
+        <node>win</node>
+        <parameters>--device openxrheadset --split_eye_ports false --inter_camera_distance 0.093 --eye_z_position -0.7</parameters>
+        <depends>frameTransformerServer</depends>
+    </module>
+    <module>
+        <tag>OpenXrFrameViz</tag>
+        <name>OpenXrFrameViz</name>
+        <node>win</node>
+        <depends>openxrheadset</depends>
+    </module>
+	
+
+   <!-- connections -->
+   <connection>
+       <from>/depthCamera/ir:o</from>
+       <to>/OpenXrHeadset/display:i</to>
+       <protocol>mjpeg</protocol>
+   </connection>
+
+	<connection>
+	    <from>/joystickSteamdeck:o</from>
+	    <to>/joystick_comp:o</to>
+	    <protocol>fast_tcp+recv.portmonitor+type.dll+file.joy2vel</protocol>
+    </connection>
+	   
+</application>
