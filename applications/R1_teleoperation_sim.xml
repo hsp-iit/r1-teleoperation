@@ -7,7 +7,7 @@
 
    <module>
       <name>ros2_launch.sh</name>
-      <parameters> r1Mk3_gz_sim.launch.py world:=/usr/local/src/robot/grasping-baselines/gazebo/worlds/gb-gz-r1.world use_sim_time:=true</parameters>
+      <parameters> r1Mk3_gz_sim.launch.py world:=/usr/local/src/robot/r1-teleoperation/gz/worlds/gz-teleoperation.world use_sim_time:=true</parameters>
       <environment>YARP_CLOCK=$ENV{YARP_DEF_CLOCK}</environment>
       <workdir>$ENV{TOUR_GUIDE_ROBOT_SOURCE_DIR}/app/navigation2/launch/</workdir>
       <node>console</node>
