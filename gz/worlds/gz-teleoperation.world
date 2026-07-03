@@ -91,9 +91,15 @@
     </model>
 
     <model name="SIM_CER_ROBOT">
+      <plugin name="gzyarp::ConfigurationOverride"
+      filename="gz-sim-yarp-configurationoverride-system">
+        <yarpPluginConfigurationOverride yarpRobotInterfaceName="all"/>
+        <yarpRobotInterfaceEnableTags>(enable_ros2 enable_stereo_camera)</yarpRobotInterfaceEnableTags>
+        <yarpRobotInterfaceDisableTags>(enable_stereo_camera)</yarpRobotInterfaceDisableTags>
+      </plugin>
       <include>
     <!--<uri>model://R1Mk3Gazebo</uri>   -->
-        <uri>model://R1Mk3Gazebo_minContacts</uri>
+        <uri>/usr/local/src/robot/r1-models/urdf/R1Mk3/robots/R1Mk3Gazebo_stereo/model.urdf</uri>
         <pose>0.17 0 0.16 0 0 3.14</pose>
       </include>
     </model>

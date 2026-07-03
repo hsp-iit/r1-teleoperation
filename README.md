@@ -1,12 +1,23 @@
-# Build the docker
+# R1 TELEOPERATION
+
+This repo contains dockerfile, launch file and script needed to teleoperate R1.
+
+## Repo structure
+- *applications*: contains three yarpmanager applications, one for the real robot, and two for the simulation;
+- *dockerfile*: contains the dockerfile to be build to have the simulation running on your laptop;
+- *gz*: contains the worlds of gazebo;
+- *launch*: contains lauch files to start and stop things in REAL robot in an easy way;
+- *script*: contains script to restore the starting position of the teleoperation (both for real and simulated robot).
+
+### Build the docker
 
 ```jsx
-# BUILDARE DOCKER FILE
+# BUILD DOCKER FILE
 export DOCKER_BUILDKIT=1
 export GITHUB_TOKEN=YOURGITHUBTOKEN
 docker build --secret id=github_token,env=GITHUB_TOKEN -t ergocub-custom:latest .
 
-# LANCIARE CONTAINER
+# LAUNCH CONTAINER
 stat -c '%n %g %G' /dev/dri/card* /dev/dri/renderD*
 /dev/dri/card1 44 video
 /dev/dri/card2 44 video
