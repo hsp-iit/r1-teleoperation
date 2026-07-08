@@ -50,12 +50,12 @@
         <parameters>--device frameTransformServer --filexml_option fts_yarp_only.xml</parameters>
     </module>
     <module>
-        <tag>openxrheadset</tag>
-        <name>yarpdev</name>
-        <node>win</node>
-        <parameters>--device openxrheadset --split_eye_ports false --inter_camera_distance 0.093 --eye_z_position -0.7</parameters>
-        <depends>frameTransformerServer</depends>
-    </module>
+            <tag>openxrheadset</tag>
+            <name>yarprobotinterface</name>
+            <node>win</node>
+            <parameters>--config C:\Users\metac\metaCub\xml\applications\joystick_device.xml</parameters>
+            <depends>frameTransformerServer</depends>
+        </module>
     <module>
         <tag>OpenXrFrameViz</tag>
         <name>OpenXrFrameViz</name>
@@ -67,8 +67,8 @@
    <!-- connections -->
    <connection>
        <from>/r1mk3Sim/depthCamera/stereo/rgbImage:o</from>
-       <to>/OpenXrHeadset/display:i</to>
-       <protocol>fast_tcp+send.portmonitor+file.image_compression_ffmpeg+recv.portmonitor+file.image_compression_ffmpeg+type.dll+custom_enc.libx264+custom_dec.h264</protocol>
+       <to>/meta/joypad/display:i</to>
+       <protocol>mjpeg</protocol>
    </connection>
 
 </application>
