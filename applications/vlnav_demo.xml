@@ -6,13 +6,7 @@
           <parameters>--context google --from googleTranscription.ini</parameters>
           <node>console-llm</node>
         </module>
-        
-        
-        <!--<module>
-          <name>yarprobotinterface</name>
-          <parameters>--context speechPipeline --from azureSynthesizer.ini</parameters>
-          <node>speech</node>
-        </module>-->
+               
         
         <module>
           <name>speechMicController</name>
@@ -62,12 +56,44 @@
                 <node>r1-face</node>
             </module>
 
+            <module>
+                <name>python3</name>
+                <parameters>/home/user1/visual-language-navigation/visual_language_navigation/llm/chat_agent.py</parameters>
+                <node>vln</node>
+            </module>
 
-    	<connection>
-    	    <from>/vad/audio:o</from>
-    	    <to>/speechTransciption_nws/sound:i</to>
-    	    <protocol>fast_tcp</protocol>
-    	</connection>
+            <module>
+                <name>python3</name>
+                <parameters>/home/user1/visual-language-navigation/visual_language_navigation/llm/nav_agent.py</parameters>
+                <node>vln</node>
+            </module>
+
+            <module>
+                <name>python3</name>
+                <parameters>/home/user1/visual-language-navigation/visual_language_navigation/web_chat/backend.py</parameters>
+                <node>vln</node>
+            </module>
+
+            <module>
+                <name>rviz2</name>
+                <parameters>-d /home/user1/visual-language-navigation/visual_language_navigation/params/rviz/vlnav.rviz</parameters>
+                <node>vln</node>
+            </module>
+            
+            <module>
+                <name>ros2</name>
+                <parameters>run speech_pipeline speech_bridge</parameters>
+                <node>vln</node>
+            </module>
+
+            <module>
+                <name>launch_vl_map_builder</name>
+                <parameters></parameters>
+                <node>terminal</node>
+            </module>
+
+
+
     	
         <connection>
           <from>/audioRecorder_nws/audio:o</from>
