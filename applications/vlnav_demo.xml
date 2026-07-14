@@ -1,0 +1,130 @@
+<application>
+    <name>VLNAV_NAV</name>
+
+   	    <module>
+          <name>yarprobotinterface</name>
+          <parameters>--context google --from googleTranscription.ini</parameters>
+          <node>console-llm</node>
+        </module>
+        
+        
+        <!--<module>
+          <name>yarprobotinterface</name>
+          <parameters>--context speechPipeline --from azureSynthesizer.ini</parameters>
+          <node>speech</node>
+        </module>-->
+        
+        <module>
+          <name>speechMicController</name>
+          <parameters>--context speechPipeline --from speechMicController.ini</parameters>
+          <node>console-llm</node>
+        </module>
+
+        <module>
+                <name>yarprobotinterface</name>
+                <parameters>--context speechPipeline --from micAudio.ini --mic_sound_on_stop 0 --mic_start 1 --mic_min_samples 4000 --mic_max_samples 4000</parameters>
+                <node>r1-torso</node>
+            </module>
+        
+            <module>
+                <name>sileroVAD</name>
+                <parameters>--vad_threshold 0.7 --vad_gap_allowance 42</parameters>
+                <environment>YARP_LOG_PROCESS_LABEL=VAD</environment>
+                <node>r1-base</node>
+            </module>
+        
+            <module>
+                <name>yarprobotinterface</name>
+                <parameters>--context vadModule --from audioPlayer.ini</parameters>
+                <node>r1-face</node>
+            </module>
+        
+           
+        
+            <module>
+                <name>yarprobotinterface</name>
+                <parameters>--context google --from googleSynthesizer.ini --synthesis_lang it-IT --synthesis_voice it-IT-Neural2-A</parameters>
+                <environment></environment>
+                <node>console-llm</node>
+            </module>
+        
+          
+        
+            <module>
+                <name>faceExpressionImage5GTour</name>
+                <parameters></parameters>
+                <node>r1-base</node>
+            </module>
+        
+            <module>
+                <name>yarprobotinterface</name>
+                <parameters>--context headSynchronizer --from faceDisplay.ini</parameters>
+                <node>r1-face</node>
+            </module>
+
+
+    	<connection>
+    	    <from>/vad/audio:o</from>
+    	    <to>/speechTransciption_nws/sound:i</to>
+    	    <protocol>fast_tcp</protocol>
+    	</connection>
+    	
+        <connection>
+          <from>/audioRecorder_nws/audio:o</from>
+          <to>/vad/audio:i</to>
+          <protocol>tcp+recv.portmonitor+file.soundfilter_resample+type.dll+channel.0+frequency.16000</protocol>
+        </connection>
+        <connection>
+          <from>/vad/audio:o</from>
+          <to>/speechTranscription_nws/sound:i</to>
+        </connection>
+        <connection>
+          <from>/speechSynthesizer_nws/sound:o</from>
+          <to>/audioPlayerWrapper/audio:i</to>
+          <protocol>fast_tcp</protocol>
+        </connection>
+        <connection>
+        <from>/audioPlayerWrapper/status:o</from>
+        <to>/speechMicController/audioPlayStatus:i</to>
+        <protocol>fast_tcp</protocol>
+      </connection>
+    
+      <connection>
+        <from>/speechSynthesizer_nws/sound:o</from>
+        <to>/speechMicController/sound:i</to>
+        <protocol>fast_tcp</protocol>
+      </connection>
+
+       <connection>
+    <from>/faceExpressionImage/image:o</from>
+    <to>/robot/faceDisplay/image:i</to>
+    <protocol>fast_tcp</protocol>
+  </connection>
+
+  <connection>
+    <from>/audioPlayerWrapper/status:o</from>
+    <to>/faceExpressionImage/mouthAudioData:i </to>
+    <protocol>fast_tcp</protocol>
+  </connection>
+
+  <connection>
+    <from>/audioRecorder_nws/status:o</from>
+    <to>/faceExpressionImage/earsAudioStatus:i</to>
+    <protocol>fast_tcp</protocol>
+  </connection>
+
+    
+	<connection>
+	    <from>/audioRecorder_nws/audio:o</from>
+	    <to>/faceExpressionImage/earsAudioData:i</to>
+	    <protocol>fast_tcp+recv.portmonitor+file.soundfilter_resample+type.dll+channel.0+frequency.16000</protocol>
+	  </connection>
+	
+	  <connection>
+	    <from>/audioRecorder_nws/status:o</from>
+	    <to>/faceExpressionImage/earsAudioStatus:i</to>
+	    <protocol>fast_tcp</protocol>
+	  </connection>
+    
+
+</application>
