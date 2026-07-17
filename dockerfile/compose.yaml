@@ -1,0 +1,41 @@
+services:
+  ergocub:
+    image: ergocub-custom:latest
+
+    build:
+      context: .
+      secrets:
+        - github_token
+
+    privileged: true
+    network_mode: host
+    pid: host
+
+    devices:
+      - /dev/dri:/dev/dri
+
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+
+    gpus: all
+
+    environment:
+      DISPLAY: "${DISPLAY}"
+      ROS_DOMAIN_ID: "${ROS_DOMAIN_ID:-0}"
+      NVIDIA_DRIVER_CAPABILITIES: all
+      __NV_PRIME_RENDER_OFFLOAD: "1"
+      __GLX_VENDOR_LIBRARY_NAME: nvidia
+      __VK_LAYER_NV_optimus: NVIDIA_only
+      QT_X11_NO_MITSHM: "1"
+
+    volumes:
+      - "${CYCLONEDDS_FILE}:/home/user1/.config/cyclone_dds_settings.xml:ro"
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+    stdin_open: true
+    tty: true
+
+secrets:
+  github_token:
+    environment: GITHUB_TOKEN
