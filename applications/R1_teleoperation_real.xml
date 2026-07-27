@@ -18,11 +18,6 @@
         <workdir>$ENV{ROBOT_CODE}/robots-configuration/R1SN003/</workdir>
         <node>r1-base</node>
      </module>
-     <!-- <module> -->
-     <!--    <name>yarprobotinterface</name> -->
-     <!--    <parameters>--context navigation2 --from realsense2_remote_fast.ini</parameters> -->
-     <!--    <node>r1-torso</node> -->
-     <!-- </module> -->
 
     <module>
        <name>yarpdev</name>
@@ -112,7 +107,20 @@
           <parameters></parameters>
           <workdir>/usr/local/src/robot/r1-teleoperation/launch </workdir>
           <node>opt</node>
-       </module>
+    </module>
+
+           
+   <module>
+      <name>yarprobotinterface </name>
+      <parameters>--context headSynchronizer --from faceDisplay.ini</parameters>
+      <node>r1-face</node>
+   </module>
+
+   <module>
+      <name>faceExpressionImage5GTour</name>
+      <parameters></parameters>
+      <node>r1-face</node>
+  </module>
 	
 
    <!-- connections -->
@@ -121,5 +129,11 @@
        <to>/meta/joypad/display:i</to>
        <protocol>mjpeg</protocol>
    </connection>
+
+   <connection>
+    <from>/faceExpressionImage/image:o</from>
+    <to>/robot/faceDisplay/image:i</to>
+    <protocol>fast_tcp</protocol>
+  </connection>
 	   
 </application>

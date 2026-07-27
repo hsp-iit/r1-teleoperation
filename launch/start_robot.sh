@@ -3,6 +3,7 @@ set -e
 
 BASE_HOST="r1-base"
 TORSO_HOST="r1-torso"
+FACE_HOST="r1-face"
 
 ECC_CONTAINER="vibrant_borg"
 CONSOLE_CONTAINER="busy_chebyshev"
@@ -53,11 +54,35 @@ ssh "${TORSO_HOST}" '
     tail -n 50 /tmp/yarprun_torso.log || true
   "
 '
+echo
+echo "[3] yarprun /r1-face su face"
+ssh "${FACE_HOST}" '
+  bash -ilc "
+    echo Sono su host: \$(hostname)
+    echo User: \$(whoami)
+    echo PATH: \$PATH
+    echo yarp: \$(which yarp 2>/dev/null || echo NON_TROVATO)
+    echo yarprun: \$(which yarprun 2>/dev/null || echo NON_TROVATO)
+
+    tmux kill-session -t yarprun_face 2>/dev/null || true
+    tmux new-session -d -s yarprun_face \"yarprun --server /r1-face --log > /tmp/yarprun_face.log 2>&1\"
+    sleep 4
+
+    echo --- log yarprun_face ---
+    tail -n 50 /tmp/yarprun_face.log || true
+  "
+'
 
 echo
 echo "[check da base] /r1-torso"
 ssh "${BASE_HOST}" '
   yarp name list | grep /r1-torso || echo "Manca /r1-torso"
+'
+
+echo
+echo "[check da base] /r1-face"
+ssh "${BASE_HOST}" '
+  yarp name list | grep /r1-face || echo "Manca /r1-face"
 '
 
 echo

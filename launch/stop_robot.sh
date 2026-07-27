@@ -3,6 +3,7 @@ set -e
 
 BASE_HOST="r1-base"
 TORSO_HOST="r1-torso"
+FACE_HOST="r1-face"
 
 ECC_CONTAINER="vibrant_borg"
 CONSOLE_CONTAINER="busy_chebyshev"
@@ -16,6 +17,10 @@ ssh "${BASE_HOST}" '
 
 ssh "${TORSO_HOST}" '
   tmux kill-session -t yarprun_torso 2>/dev/null || true
+'
+
+ssh "${FACE_HOST}" '
+  tmux kill-session -t yarprun_face 2>/dev/null || true
 '
 
 ssh "${BASE_HOST}" "
