@@ -6,7 +6,7 @@ TORSO_HOST="r1-torso"
 FACE_HOST="r1-face"
 
 ECC_CONTAINER="vibrant_borg"
-CONSOLE_CONTAINER="busy_chebyshev"
+CONSOLE_CONTAINER="hopeful_albattani"
 
 echo "=== Avvio infrastruttura YARP ==="
 
@@ -118,7 +118,7 @@ ssh "${BASE_HOST}" '
 '
 
 echo
-echo "[5] yarprun /console dentro busy_chebyshev"
+echo "[5] yarprun /console dentro hopeful_albattani"
 ssh "${BASE_HOST}" "
   echo 'Sono su host base:' \$(hostname)
   docker start ${CONSOLE_CONTAINER} >/dev/null

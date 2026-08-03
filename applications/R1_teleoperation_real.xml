@@ -21,7 +21,7 @@
 
     <module>
        <name>yarpdev</name>
-       <parameters>--device openCVGrabber --camera 0 --name /stereo/rgb --width 1344 --height 376</parameters>
+       <parameters>--device openCVGrabber --camera 6 --name /stereo/rgb --width 1344 --height 376</parameters>
        <node>r1-torso</node>
     </module>
          
